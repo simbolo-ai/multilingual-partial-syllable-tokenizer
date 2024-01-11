@@ -20,6 +20,7 @@ Character-level Tokenization for other languages
 
 ### How to use
 ```
+#pip install simmpst==0.1.1
 import simmpst
 from simmpst.tokenization import MultilingualPartialSyllableTokenization
 
