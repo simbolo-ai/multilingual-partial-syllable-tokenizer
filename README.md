@@ -133,9 +133,15 @@ We would like to thank everyone who contributed to the field of NLP and Myanmar 
 ### References
 References: 
 [1] Ye Kyaw Thu, sylbreak, https://github.com/ye-kyaw-thu/sylbreak
+
 [2] Y. K. Thu et al., "sylbreak4all: Regular Expressions for Syllable Breaking of Nine Major Ethnic Languages of Myanmar," 2021 16th International Joint Symposium on Artificial Intelligence and Natural Language Processing (iSAI-NLP), 2021, pp. 1-6, doi: 10.1109/iSAI-NLP54397.2021.9678188.
+
 [3] Kaung Htet San, Pyidaungsu, https://github.com/kaunghtetsan275/pyidaungsu
-[4] Maung, Zin & Mikami, Yoshiki. (2008). A Rule-based Syllable Segmentation of Myanmar Text. 
+
+[4] Maung, Zin & Mikami, Yoshiki. (2008). A Rule-based Syllable Segmentation of Myanmar Text
+
 [5] Ye Kyaw Thu, NLP Class UTYCC, https://github.com/ye-kyaw-thu/NLP-Class
+
 [6] Unicode Character Table, https://jrgraphix.net/r/Unicode/1000-109F
+
 [7] Rabbit Converter, http://www.rabbit-converter.org/
