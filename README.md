@@ -109,7 +109,7 @@ Tokens: tensor([455, 434,   1,   1, 262,   3,   5, 147, 359,  69,  22,  21, 391,
 ```
 
 ### Some Research on our tokenizer (version 1)
-
+Distinguishing Burmese Male and Female Names: https://github.com/simbolo-ai/multilingual-partial-syllable-tokenizer/blob/main/Binary%20Brigade-%20Distinguishing%20Burmese%20Male%20and%20Female%20Names.pdf
 
 ### Bibtex
 ```
@@ -122,10 +122,10 @@ Tokens: tensor([455, 434,   1,   1, 262,   3,   5, 147, 359,  69,  22,  21, 391,
 ```
 
 ### Acknowledgment Statement from Sa Phyo Thu Htet
-I would like to thank Dr. Ye Kyaw Thu, Dr. Hnin Aye Thant, Ma Aye Hninn Khine, ​and Ma Yi Yi Chan Myae Win Shein for their guidance, support, and suggestions. The skills acquired from Dr. Ye Kyaw Thu's NLP Class helped me a lot in order to develop new ideas in NLP Field and this repo. And a shoutout to the creators of Rabbit Converter and jrgraphix.net's Unicode Character Table. These tools were super helpful to develop nlp-concepts especially for Burmese Language. Thanks.
+I woul like thank Dr. Ye Kyaw Thu, Dr. Hnin Aye Thant, Ma Aye Hninn Khine, ​and Ma Yi Yi Chan Myae Win Shein for their guidance, support, and suggestions. The skills acquired from Dr. Ye Kyaw Thu's NLP Class helped me a lot to develop new ideas in the NLP Field and this repo. And a shoutout to the creators of Rabbit Converter and jrgraphix.net's Unicode Character Table. These tools were super helpful in developing concepts, especially for the Burmese Language. Thanks.
 
 ### Acknowledgment 
-We would like to thank everyone who contributed in the field of NLP and Myanmar NLP. And would like to thank Simbolo Servicio which is a branch of Simbolo for the financial support.
+We would like to thank everyone who contributed to the field of NLP and Myanmar NLP. And would like to thank Simbolo Servicio, a branch of Simbolo, for the financial support.
 
 ### References
 References: 
