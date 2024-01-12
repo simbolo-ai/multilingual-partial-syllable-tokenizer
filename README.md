@@ -20,7 +20,7 @@ Partial Syllable RE Pattern of Tokenizer: [Maybe Preceded By][Maybe Followed By]
 Word-level Tokenization for English languages
 Character-level Tokenization for other languages
 
-### How to use
+### How to use (Getting Started)
 ```
 #pip install simmpst==0.1.1
 import simmpst
@@ -29,12 +29,23 @@ from simmpst.tokenization import MultilingualPartialSyllableTokenization
 # First Initialize the class, and provide vocab size to build the tokenizer
 tokenizer = MultilingualPartialSyllableTokenization(vocab_size=500)
 
+# Replace `texts` with your actual data
+sample_text = "ဝီကီပီးဒီးယားသည် သုံးစွဲသူများက ပူးပေါင်း၍ ရေးသားတည်းဖြတ်သော စွယ်စုံကျမ်းဖြစ်ပါသည်။"
+tokenize_text = tokenizer.tokenize_text(sample_text)
+
+print(tokenize_text)
+#ဝီ ကီ ပီး ဒီး ယား သ ည်   သုံး စွဲ သူ များ က   ပူး ပေါ င်း ၍   ရေး သား တ ည်း ဖြ တ် သော   စွ ယ် စုံ ကျ မ်း ဖြ စ် ပါ သ ည် ။ 
+```
+
+### How to train and load with DataLoader
+```
+import simmpst
+from simmpst.tokenization import MultilingualPartialSyllableTokenization
+
+tokenizer = MultilingualPartialSyllableTokenization(vocab_size=500)
+
 # Please provide your training data in .txt file, then the tokenizer model file will be saved in your folder
 tokenizer.train(train_data_path='/train_small.txt')
-
-# Load Your Model
-tokenizer_path = '/content/partial_syllable.model.pkl'
-
 
 # Using with Dataloader that can be used with transoformer model
 import re
@@ -43,19 +54,13 @@ import json
 import pickle
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 def collate_fn(batch, maxlen=100, truncating='post', padding='post'):
     return torch.nn.utils.rnn.pad_sequence(batch, batch_first=True, padding_value=0)
 
 class CustomDataset(Dataset):
-    def __init__(self, texts, tokenizer_path):
+    def __init__(self, texts):
         self.texts = texts
-
-        # Load the tokenizer from the saved file
-        with open(tokenizer_path, 'rb') as f:
-            self.tokenizer = pickle.load(f)
 
     def __len__(self):
         return len(self.texts)
@@ -63,27 +68,24 @@ class CustomDataset(Dataset):
     def __getitem__(self, idx, maxlen=100, truncating='post', padding='post'):
         print("Idx", idx)
         text = tokenizer.tokenize_text(self.texts[idx])
-
-        # Tokenize the text using your custom tokenizer
-        testing_sequences = self.tokenizer.texts_to_sequences([text])[0]
-        print(testing_sequences)
-        tokens = pad_sequences([testing_sequences], maxlen=maxlen, truncating=truncating, padding=padding)[0]
-
+        tokens = tokenizer.encode(text)
+        
         # Convert NumPy array to PyTorch tensor
-        tokens = torch.tensor(tokens)
+        tokens_tensors = torch.tensor(tokens)
 
         # Print information for debugging
         print(f"Text: {text}")
-        print(f"Tokens: {tokens}")
+        print(f"Tokens_numpy: {tokens}")
+        print(f"Tokens_tensor: {tokens_tensors}")
 
-        return tokens
+        return tokens_tensors
 
 # Replace `texts` with your actual data
 texts = ["ဝီကီပီးဒီးယားသည် သုံးစွဲသူများက ပူးပေါင်း၍ ရေးသားတည်းဖြတ်သော စွယ်စုံကျမ်းဖြစ်ပါသည်။", "ဝီကီဟု ခေါ်သော ဝက်ဘ်ဆိုက် ပုံစံတစ်မျိုးကို အသုံးပြု၍ ပူးပေါင်းရေးသားခြင်းကို အဆင်ပြေစေရန် စီမံထားခြင်း ဖြစ်ပါသည်။", "သုံးစွဲသူများမှ နာရီအလိုက် ပြင်ဆင်မှုပေါင်း များစွာကို ပြုလုပ်၍ ဝီကီပီးဒီးယားကို ပို၍ကောင်းမွန်အောင် ဆောင်ရွက်နေကြပါသည်။","မြန်မာဝီကီပီးဒီးယားတွင် ယူနီကုဒ် ၅.၂ စံနှုန်းကို လိုက်နာသော မည်သည့်ဖောင့်အမျိုးအစား နှင့်မဆို ဖတ်ရှုခြင်း၊ တည်းဖြတ်ခြင်းများ ပြုလုပ်နိုင်ပါသည်။"]
 
 
 # Create your dataset
-dataset = CustomDataset(texts, tokenizer_path)
+dataset = CustomDataset(texts)
 
 # Set your desired parameters
 maxlen = 120  # Replace with your desired value
@@ -91,24 +93,63 @@ truncating = 'post'  # Replace with 'pre' or 'post' based on your preference
 padding = 'post'  # Replace with 'pre' or 'post' based on your preference
 
 # Create a DataLoader with the collate function for padding
-batch_size = 2  # Replace with your desired batch size
+batch_size = 1  # Replace with your desired batch size
 dataloader = DataLoader(dataset, batch_size=batch_size, collate_fn=lambda b: collate_fn(b, maxlen, truncating, padding))
 
 # Iterate through the dataloader and print batches
 for batch in dataloader:
     print(batch)
+    print("========================================")
 
-# Sample Outputs:
-[455, 434, 1, 1, 262, 3, 5, 147, 359, 69, 22, 21, 391, 105, 7, 58, 49, 81, 9, 37, 19, 16, 31, 226, 25, 281, 78, 39, 19, 8, 54, 3, 5, 1]
+# Sample Output
+Idx 0
 Text: ဝီ ကီ ပီး ဒီး ယား သ ည်   သုံး စွဲ သူ များ က   ပူး ပေါ င်း ၍   ရေး သား တ ည်း ဖြ တ် သော   စွ ယ် စုံ ကျ မ်း ဖြ စ် ပါ သ ည် ။ 
-Tokens: tensor([455, 434,   1,   1, 262,   3,   5, 147, 359,  69,  22,  21, 391, 105,
+Tokens_numpy: [455, 434, 1, 1, 262, 3, 5, 147, 359, 69, 22, 21, 391, 105, 7, 58, 49, 81, 9, 37, 19, 16, 31, 226, 25, 281, 78, 39, 19, 8, 54, 3, 5, 1]
+Tokens_tensor: tensor([455, 434,   1,   1, 262,   3,   5, 147, 359,  69,  22,  21, 391, 105,
           7,  58,  49,  81,   9,  37,  19,  16,  31, 226,  25, 281,  78,  39,
-         19,   8,  54,   3,   5,   1,   0,   0,   0,   0,   0,   0,   0,   0,
-          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-          0,   0], dtype=torch.int32)
+         19,   8,  54,   3,   5,   1])
+tensor([[455, 434,   1,   1, 262,   3,   5, 147, 359,  69,  22,  21, 391, 105,
+           7,  58,  49,  81,   9,  37,  19,  16,  31, 226,  25, 281,  78,  39,
+          19,   8,  54,   3,   5,   1]])
+========================================
+Idx 1
+Text: ဝီ ကီ ဟု   ခေါ် သော   ဝ က် ဘ် ဆို က်   ပုံ စံ တ စ် မျိုး ကို   အ သုံး ပြု ၍   ပူး ပေါ င်း ရေး သား ခြ င်း ကို   အ ဆ င် ပြေ စေ ရ န်   စီ မံ ထား ခြ င်း   ဖြ စ် ပါ သ ည် ။ 
+Tokens_numpy: [455, 434, 82, 207, 31, 29, 6, 1, 74, 6, 159, 277, 9, 8, 92, 18, 4, 147, 97, 58, 391, 105, 7, 49, 81, 66, 7, 18, 4, 38, 2, 1, 148, 11, 10, 181, 354, 106, 66, 7, 19, 8, 54, 3, 5, 1]
+Tokens_tensor: tensor([455, 434,  82, 207,  31,  29,   6,   1,  74,   6, 159, 277,   9,   8,
+         92,  18,   4, 147,  97,  58, 391, 105,   7,  49,  81,  66,   7,  18,
+          4,  38,   2,   1, 148,  11,  10, 181, 354, 106,  66,   7,  19,   8,
+         54,   3,   5,   1])
+tensor([[455, 434,  82, 207,  31,  29,   6,   1,  74,   6, 159, 277,   9,   8,
+          92,  18,   4, 147,  97,  58, 391, 105,   7,  49,  81,  66,   7,  18,
+           4,  38,   2,   1, 148,  11,  10, 181, 354, 106,  66,   7,  19,   8,
+          54,   3,   5,   1]])
+========================================
+Idx 2
+Text: သုံး စွဲ သူ များ မှ   နာ ရီ အ လို က်   ပြ င် ဆ င် မှု ပေါ င်း   များ စွာ ကို   ပြု လု ပ် ၍   ဝီ ကီ ပီး ဒီး ယား ကို   ပို ၍ ကော င်း မွ န် အော င်   ဆော င် ရွ က် နေ ကြ ပါ သ ည် ။ 
+Tokens_numpy: [147, 359, 69, 22, 41, 127, 188, 4, 109, 6, 34, 2, 38, 2, 73, 105, 7, 22, 177, 18, 97, 101, 14, 58, 455, 434, 1, 1, 262, 18, 112, 58, 94, 7, 299, 10, 133, 2, 88, 2, 170, 6, 57, 50, 54, 3, 5, 1]
+Tokens_tensor: tensor([147, 359,  69,  22,  41, 127, 188,   4, 109,   6,  34,   2,  38,   2,
+         73, 105,   7,  22, 177,  18,  97, 101,  14,  58, 455, 434,   1,   1,
+        262,  18, 112,  58,  94,   7, 299,  10, 133,   2,  88,   2, 170,   6,
+         57,  50,  54,   3,   5,   1])
+tensor([[147, 359,  69,  22,  41, 127, 188,   4, 109,   6,  34,   2,  38,   2,
+          73, 105,   7,  22, 177,  18,  97, 101,  14,  58, 455, 434,   1,   1,
+         262,  18, 112,  58,  94,   7, 299,  10, 133,   2,  88,   2, 170,   6,
+          57,  50,  54,   3,   5,   1]])
+========================================
+Idx 3
+Text: မြ န် မာ ဝီ ကီ ပီး ဒီး ယား တွ င်   ယူ နီ ကု ဒ်   ၅ . ၂   စံ နှု န်း ကို   လို က် နာ သော   မ ည် သ ည့် ဖော င့် အ မျိုး အ စား   နှ င့် မ ဆို   ဖ တ် ရှု ခြ င်း ၊   တ ည်း ဖြ တ် ခြ င်း များ   ပြု လု ပ် နို င် ပါ သ ည် ။ 
+Tokens_numpy: [48, 10, 86, 455, 434, 1, 1, 262, 20, 2, 155, 197, 107, 305, 87, 45, 277, 348, 27, 18, 109, 6, 127, 31, 12, 5, 3, 52, 407, 15, 4, 92, 4, 132, 24, 15, 12, 74, 114, 16, 360, 66, 7, 13, 9, 37, 19, 16, 66, 7, 22, 97, 101, 14, 42, 2, 54, 3, 5, 1]
+Tokens_tensor: tensor([ 48,  10,  86, 455, 434,   1,   1, 262,  20,   2, 155, 197, 107, 305,
+         87,  45, 277, 348,  27,  18, 109,   6, 127,  31,  12,   5,   3,  52,
+        407,  15,   4,  92,   4, 132,  24,  15,  12,  74, 114,  16, 360,  66,
+          7,  13,   9,  37,  19,  16,  66,   7,  22,  97, 101,  14,  42,   2,
+         54,   3,   5,   1])
+tensor([[ 48,  10,  86, 455, 434,   1,   1, 262,  20,   2, 155, 197, 107, 305,
+          87,  45, 277, 348,  27,  18, 109,   6, 127,  31,  12,   5,   3,  52,
+         407,  15,   4,  92,   4, 132,  24,  15,  12,  74, 114,  16, 360,  66,
+           7,  13,   9,  37,  19,  16,  66,   7,  22,  97, 101,  14,  42,   2,
+          54,   3,   5,   1]])
+========================================
 ```
 
 ### Some Research on our tokenizer (version 1)
