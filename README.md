@@ -153,7 +153,7 @@ tensor([[ 48,  10,  86, 455, 434,   1,   1, 262,  20,   2, 155, 197, 107, 305,
 ```
 
 ### Some Research on our tokenizer (version 1)
-Distinguishing Burmese Male and Female Names: https://github.com/simbolo-ai/multilingual-partial-syllable-tokenizer/blob/main/Binary%20Brigade-%20Distinguishing%20Burmese%20Male%20and%20Female%20Names.pdf
+[Distinguishing Burmese Male and Female Names:](https://github.com/simbolo-ai/multilingual-partial-syllable-tokenizer/blob/main/Binary%20Brigade-%20Distinguishing%20Burmese%20Male%20and%20Female%20Names.pdf) 
 
 ### Bibtex
 ```
