@@ -45,6 +45,7 @@ from simmpst.tokenization import MultilingualPartialSyllableTokenization
 tokenizer = MultilingualPartialSyllableTokenization(vocab_size=500)
 
 # Please provide your training data in .txt file, then the tokenizer model file will be saved in your folder
+# Sample of Training Data File: https://github.com/simbolo-ai/multilingual-partial-syllable-tokenizer/blob/main/train_small.txt
 tokenizer.train(train_data_path='/train_small.txt')
 
 # Using with Dataloader that can be used with transoformer model
