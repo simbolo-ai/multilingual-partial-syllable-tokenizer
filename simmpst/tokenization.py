@@ -4,7 +4,6 @@ import pickle
 import tensorflow
 from typing import List
 from tensorflow.keras.preprocessing.text import Tokenizer
-from transformers import PreTrainedTokenizerFast
 
 class MultilingualPartialSyllableTokenization:
     """
@@ -26,7 +25,7 @@ class MultilingualPartialSyllableTokenization:
         self.trunc_type = trunc_type
         self.oov_tok = oov_tok
         self.model_path = model_path
-        self.tokenizer = Tokenizer(num_words=self.vocab_size, oov_token=self.oov_tok)
+        self.tokenizer = None
 
     def tokenize_text(self, input) -> str:
         """
@@ -120,6 +119,7 @@ class MultilingualPartialSyllableTokenization:
         decoded_text = self.tokenizer.sequences_to_texts([encoded_sequence])
 
         return decoded_text[0]
+        
     def get_vocab(self) -> dict:
         # Check if tokenizer is initialized
         if not hasattr(self, 'tokenizer') or self.tokenizer is None:
