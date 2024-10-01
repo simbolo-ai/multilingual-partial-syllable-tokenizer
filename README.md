@@ -15,7 +15,13 @@ Partial Syllable RE Pattern of Tokenizer: [Maybe Preceded By][Maybe Followed By]
 1. burmese, 2. paoh, 3. shan, 4. mon, 5. rakhine, 6. pali
 7. Sgaw-karen, 8. pwo-karen, 9. pa'o, 10. karenni (also known as Kayah or Red Karen), 11. kayan (also known as Padaung)            
 12. devangari, 13. gurmukhi, 14. gujarati, 15. oriya, 16. tamil, 17. telugu, 18. kannada, 
-19. malayalam, 20. sinhala, 21. thai, 22. lao, 23. tibetan, 24. khmer,25. aiton, 26. phake
+19. malayalam, 20. sinhala, 21. thai, 22. lao, 23. tibetan, 24. khmer,25. aiton, 26. phake, 
+
+To add:
+
+baybayyin, lepcha, limbu, Ge'ez (used for Amharic, Tigrinya), Javanese (used for Javanese, historically for Old Javanese): Used in Indonesia, particularly on the island of Java, although it has largely been replaced by the Latin alphabet.
+Balinese (used for Balinese): Another script from Indonesia, still used in religious and cultural contexts.
+
 
 Word-level Tokenization for English languages
 Character-level Tokenization for other languages
