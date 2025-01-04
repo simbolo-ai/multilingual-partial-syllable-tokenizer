@@ -1,4 +1,4 @@
-# multilingual-partial-syllable-tokenizer
+# Simbolo Tokenizer: multilingual-partial-syllable-tokenizer
 ![stokenizer](https://github.com/simbolo-ai/multilingual-partial-syllable-tokenizer/assets/71957964/9d1e2684-9fde-4ae9-8521-8364d536aeea)
 
 We would like to introduce Multilingual Partial is Tokenization—a novel rule-based tokenization method that avoids breaking into complete syllables. Through experimentation, its utility has been uncovered in keyword detection, effectively minimizing False Positive errors and helping a lot in Burmese's rules-based+machine learning name recognition. Notably, this tokenization method is designed to align with the linguistic nuances of languages, but without requiring an exhaustive understanding of each specific language. Now now it is integreated with frequencey based approach to generate tokens.
